@@ -1,0 +1,5 @@
+#59 12 * * 1-5 /bin/bash /Users/diego/Projects/get_weather/morning_call.sh > /dev/null 2>&1
+#50 17 * * 1-5 /bin/bash /Users/diego/Projects/get_weather/morning_call.sh > /dev/null 2>&1
+33 * * * * /usr/bin/osascript -l JavaScript /Users/diego/Projects/weather_app/notif_app/notif_app.js
+0 9-18/3 * * * /bin/bash /Users/diego/Projects/weather_app/notif_app/grep_tenki.sh
+

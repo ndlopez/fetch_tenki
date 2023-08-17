@@ -1,0 +1,8 @@
+{
+"name":"get tenki",
+"description":"Weather status",
+"shell-version":["3.30","40.0","41.0","42.0"],
+"url":"https://github.com/ndlopez/weather_app",
+"uuid":"tenki@moji.physics",
+"version":0.4
+}
