@@ -49,3 +49,24 @@ def make_soup(tagID,f_out):
    save_data(all_data,f_out)
 
    return all_data
+
+def read_data(in_file):
+   new_data = []
+   with open(in_file,newline='',encoding='utf8') as inFile:
+       data = csv.reader(inFile,delimiter=',')
+       for row in data:
+           new_data.append(row)
+   return new_data
+
+def get_info(hour,got_this):
+   idx=0
+   for item in got_this:
+       idx+=1
+       if item[hour] == "---":
+           item[hour] = "0"
+       if idx == 4:
+           if int(item[hour]) < 1:
+               item[hour] = ""
+               units[idx] = "湿度"
+       print(item[hour] + units[idx],end="")
+   print()
