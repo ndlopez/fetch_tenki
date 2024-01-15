@@ -7,9 +7,9 @@ from urllib.error import HTTPError
 
 now = datetime.now()
 currHour = now.strftime("%H:%M")
-# jiscode = "23109" # Nagoya
-jiscode = "23220" # Inazawa
-tenki_url = f"https://tenki.jp/forecast/5/26/5110/{jiscode}/1hour.html"
+jiscode = ["23109", "Nagoya"]
+# jiscode = ["23220", 稲沢市]
+tenki_url = f"https://tenki.jp/forecast/5/26/5110/{jiscode[0]}/1hour.html"
 class_list = ["weather","temperature","prob-precip","precipitation","humidity","wind-blow","wind-speed"]
 units = [":00 ","","\u2103  防水率","% ","mm 湿度","% ","","m"]
    
@@ -75,7 +75,7 @@ if __name__ == "__main__":
    update_time = []
    for heure in range(0,24,3):
        update_time.append(heure)
-   outFile = ["get_tenki_today.csv","get_tenki_tomorrow.csv"]
+   outFile = ["/home//Downloads/get_tenki_today.csv","/home//Downloads/get_tenki_tomorrow.csv"]
    if int(currHour[:2]) in update_time:
        # update every 3hours [[],[],...]
        print("data being updated...")
@@ -89,7 +89,7 @@ if __name__ == "__main__":
    
    # print(got_this) # [[weather],[tem],...]
    aux = 1
-   print("curr= 稲沢市、現在",currHour,end=" ")
+   print(f"curr= {jiscode[1]}、現在",currHour,end=" ")
    if int(currHour[3:]) > 30:
        #next hour
        get_info(int(currHour[:2]),got_that)
@@ -104,3 +104,7 @@ if __name__ == "__main__":
    # next2 hours
    print("next=",str(int(currHour[:2]) + aux + 1) + units[0],end="")
    get_info(int(currHour[:2]) + aux + 1,got_that)
+   # tomorrow
+   tomorrow = now + timedelta(1) # 2024-01-10 13:35:13.633480
+   print(f"next2= {tomorrow.strftime('%m月%d日')} {str(int(currHour[:2]))}{units[0]}",end="")
+   get_info(int(currHour[:2]),got_zoey)
