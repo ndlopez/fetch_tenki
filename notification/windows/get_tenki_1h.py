@@ -70,3 +70,37 @@ def get_info(hour,got_this):
                units[idx] = "湿度"
        print(item[hour] + units[idx],end="")
    print()
+
+if __name__ == "__main__":
+   update_time = []
+   for heure in range(0,24,3):
+       update_time.append(heure)
+   outFile = ["get_tenki_today.csv","get_tenki_tomorrow.csv"]
+   if int(currHour[:2]) in update_time:
+       # update every 3hours [[],[],...]
+       print("data being updated...")
+       got_that = make_soup("forecast-point-1h-today",outFile[0])
+       got_zoey = make_soup("forecast-point-1h-tomorrow",outFile[1])
+   else:
+       # read from csv file
+       print("data from file")
+       got_that = read_data(outFile[0])
+       got_zoey = read_data(outFile[1])
+   
+   # print(got_this) # [[weather],[tem],...]
+   aux = 1
+   print("curr= 稲沢市、現在",currHour,end=" ")
+   if int(currHour[3:]) > 30:
+       #next hour
+       get_info(int(currHour[:2]),got_that)
+       aux = 2
+   else:
+       #curr hour
+       get_info(int(currHour[:2])-1,got_that)
+
+   # next hour
+   # print("next=",str(int(currHour[:2]) + aux) + units[0],end="")
+   # get_info(int(currHour[:2]) + aux - 1,got_that)
+   # next2 hours
+   print("next=",str(int(currHour[:2]) + aux + 1) + units[0],end="")
+   get_info(int(currHour[:2]) + aux + 1,got_that)
