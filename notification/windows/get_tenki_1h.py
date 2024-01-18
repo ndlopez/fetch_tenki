@@ -6,6 +6,7 @@ from urllib.request import urlopen
 from urllib.error import HTTPError
 
 now = datetime.now()
+tomorrow = now + timedelta(1) # 2024-01-10 13:35:13.633480
 currHour = now.strftime("%H:%M")
 jiscode = ["23109", "Nagoya"]
 # jiscode = ["23220", 稲沢市]
@@ -13,13 +14,14 @@ tenki_url = f"https://tenki.jp/forecast/5/26/5110/{jiscode[0]}/1hour.html"
 class_list = ["weather","temperature","prob-precip","precipitation","humidity","wind-blow","wind-speed"]
 units = [":00 ","","\u2103  防水率","% ","mm 湿度","% ","","m"]
    
-def save_data(got_data,out_file):
+def save_data(got_data,out_file,tag):
    with open(out_file,'w',newline='',encoding='utf8') as fp:
+       fp.write(tag+"\n")
        add_data = csv.writer(fp,delimiter=',')
        for item in got_data:
            add_data.writerow(item)
 
-def make_soup(tagID,f_out):
+def make_soup(tagID,f_out,tag):
    try:
        source = urlopen(tenki_url)
    except HTTPError as err:
@@ -27,7 +29,9 @@ def make_soup(tagID,f_out):
 
    soup = BeautifulSoup(source.read(),'html.parser')
    tables = soup.find('table',id=tagID)
-   all_data = []        
+   all_data = []
+   tagg = "# " + tag.strftime('%Y-%m-%d')
+   #all_data.append(tag)
 
    for classy in class_list:
        aux = ""
@@ -46,16 +50,20 @@ def make_soup(tagID,f_out):
            aux = auxStr.split(",")
        #print(len(aux))
        all_data.append(aux)
-   save_data(all_data,f_out)
+   save_data(all_data,f_out,tagg)
 
    return all_data
 
+aux_dates = []
 def read_data(in_file):
    new_data = []
    with open(in_file,newline='',encoding='utf8') as inFile:
        data = csv.reader(inFile,delimiter=',')
-       for row in data:
-           new_data.append(row)
+       if "#" in data:
+           aux_dates.append(data)
+       else:
+           for row in data:
+               new_data.append(row)
    return new_data
 
 def get_info(hour,got_this):
@@ -73,14 +81,15 @@ def get_info(hour,got_this):
 
 if __name__ == "__main__":
    update_time = []
+   print(aux_dates)
    for heure in range(0,24,3):
        update_time.append(heure)
-   outFile = ["/home//Downloads/get_tenki_today.csv","/home//Downloads/get_tenki_tomorrow.csv"]
+   outFile = ["../../../Downloads/get_tenki_today.csv","../../../Downloads/get_tenki_tomorrow.csv"]
    if int(currHour[:2]) in update_time:
        # update every 3hours [[],[],...]
        print("data being updated...")
-       got_that = make_soup("forecast-point-1h-today",outFile[0])
-       got_zoey = make_soup("forecast-point-1h-tomorrow",outFile[1])
+       got_that = make_soup("forecast-point-1h-today",outFile[0],now)
+       got_zoey = make_soup("forecast-point-1h-tomorrow",outFile[1],tomorrow)
    else:
        # read from csv file
        print("data from file")
@@ -103,8 +112,7 @@ if __name__ == "__main__":
    # get_info(int(currHour[:2]) + aux - 1,got_that)
    # next2 hours
    print("next=",str(int(currHour[:2]) + aux + 1) + units[0],end="")
-   get_info(int(currHour[:2]) + aux + 1,got_that)
+   get_info(int(currHour[:2]) + aux + 0,got_that)
    # tomorrow
-   tomorrow = now + timedelta(1) # 2024-01-10 13:35:13.633480
    print(f"next2= {tomorrow.strftime('%m月%d日')} {str(int(currHour[:2]))}{units[0]}",end="")
    get_info(int(currHour[:2]),got_zoey)
