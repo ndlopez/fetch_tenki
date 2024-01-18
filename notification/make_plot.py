@@ -6,23 +6,28 @@ import matplotlib.dates as mdates
 from matplotlib.ticker import AutoMinorLocator
 
 col_names=["天気","気温","降水確率","降水量","湿度","風方向","風速"]
+tags = []
 
 def read_data(in_file):
    # read csv file and convert strings to numbers
    new_data = []
    with open(in_file,newline='',encoding='utf8') as inFile:
-       data = reader(inFile,delimiter=',')
-       for row in data:
-           new_row = []
-           for elm in row:
-               if elm.isnumeric():
-                   elm = int(elm)
-               elif "." in elm:
-                   elm = float(elm)
-               if elm == "---":
-                   elm = 0
-               new_row.append(elm)
-           new_data.append(new_row)
+      data = reader(inFile,delimiter=',')
+      """if "#" in data:
+         print(data)
+         tags.append(data.split()[1])
+      else:"""
+      for row in data:
+         new_row = []
+         for elm in row:
+            if elm.isnumeric():
+               elm = int(elm)
+            elif "." in elm:
+               elm = float(elm)
+            if elm == "---":
+               elm = 0
+            new_row.append(elm)
+         new_data.append(new_row)
    return new_data
 
 def x_hours(x):
@@ -34,6 +39,7 @@ def x_date_hours(x):
    return 1000000*x.year + 10000*x.month + 10*x.day + x.hours
 
 thisData = read_data("../../../Downloads/get_tenki_today.csv")
+print(thisData)
 thatData = read_data("../../../Downloads/get_tenki_tomorrow.csv")
 # run two loops and append contents of one to the other respectively
 kdx =0
@@ -54,7 +60,9 @@ for heure in range(1,len(thisData[0])+1):
    update_time.append(heure)
 
 # create two arrays with datetimes
-dates = [datetime(2024,1,18) + timedelta(hours=k) for k in range(24)]
+tags = ["2024-01-18",""]
+aux = tags[0].split("-")
+dates = [datetime(int(aux[0]),int(aux[1]),int(aux[2])) + timedelta(hours=k) for k in range(24)]
 aux = [datetime(2024,1,18) + timedelta(1,hours=k) for k in range(24)]
 for item in aux:
    dates.append(item)

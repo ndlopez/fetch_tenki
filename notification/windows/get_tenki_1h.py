@@ -13,7 +13,8 @@ jiscode = ["23109", "Nagoya"]
 tenki_url = f"https://tenki.jp/forecast/5/26/5110/{jiscode[0]}/1hour.html"
 class_list = ["weather","temperature","prob-precip","precipitation","humidity","wind-blow","wind-speed"]
 units = [":00 ","","\u2103  防水率","% ","mm 湿度","% ","","m"]
-   
+aux_dates = []
+
 def save_data(got_data,out_file,tag):
    with open(out_file,'w',newline='',encoding='utf8') as fp:
        fp.write(tag+"\n")
@@ -54,7 +55,6 @@ def make_soup(tagID,f_out,tag):
 
    return all_data
 
-aux_dates = []
 def read_data(in_file):
    new_data = []
    with open(in_file,newline='',encoding='utf8') as inFile:
