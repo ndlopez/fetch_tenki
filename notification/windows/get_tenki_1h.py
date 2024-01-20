@@ -1,4 +1,5 @@
 from datetime import datetime, timedelta
+from pathlib import Path
 import csv
 
 from bs4 import BeautifulSoup
@@ -59,11 +60,11 @@ def read_data(in_file):
    new_data = []
    with open(in_file,newline='',encoding='utf8') as inFile:
        data = csv.reader(inFile,delimiter=',')
-       if "#" in data:
+       """if "#" in data:
            aux_dates.append(data)
-       else:
-           for row in data:
-               new_data.append(row)
+       else:"""
+       for row in data:
+           new_data.append(row)
    return new_data
 
 def get_info(hour,got_this):
@@ -84,7 +85,7 @@ if __name__ == "__main__":
    print(aux_dates)
    for heure in range(0,24,3):
        update_time.append(heure)
-   outFile = ["../../../Downloads/get_tenki_today.csv","../../../Downloads/get_tenki_tomorrow.csv"]
+   outFile = [Path.home().joinpath("Downloads","get_tenki_today.csv"), Path.home().joinpath("Downloads","get_tenki_tomorrow.csv")]
    if int(currHour[:2]) in update_time:
        # update every 3hours [[],[],...]
        print("data being updated...")

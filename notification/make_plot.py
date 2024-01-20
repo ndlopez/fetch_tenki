@@ -1,5 +1,6 @@
 from datetime import datetime, timedelta
 from csv import reader
+from pathlib import Path
 # import pandas as pd
 import matplotlib.pyplot as plt
 import matplotlib.dates as mdates
@@ -38,10 +39,11 @@ def x_date_hours(x):
    # (2024,01,20,03,0) -> 2024012003
    return 1000000*x.year + 10000*x.month + 10*x.day + x.hours
 
-thisData = read_data("../../../Downloads/get_tenki_today.csv")
+thisData = read_data(Path.home().joinpath("Downloads","get_tenki_today.csv"))
 print(thisData)
-thatData = read_data("../../../Downloads/get_tenki_tomorrow.csv")
-# run two loops and append contents of one to the other respectively
+thatData = read_data(Path.home().joinpath("Downloads","get_tenki_tomorrow.csv"))
+"""run in parallel two loops to append 
+ contents of one to the other respectively"""
 kdx =0
 for atem in thisData:
    idx = 0
