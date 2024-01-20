@@ -60,10 +60,10 @@ for heure in range(1,len(thisData[0])+1):
    update_time.append(heure)
 
 # create two arrays with datetimes
-tags = ["2024-01-18",""]
-aux = tags[0].split("-")
-dates = [datetime(int(aux[0]),int(aux[1]),int(aux[2])) + timedelta(hours=k) for k in range(24)]
-aux = [datetime(2024,1,18) + timedelta(1,hours=k) for k in range(24)]
+heute = datetime.now()
+zoey = datetime(heute.year,heute.month,heute.day)
+dates = [zoey + timedelta(hours=k) for k in range(24)]
+aux = [zoey + timedelta(1,hours=k) for k in range(24)]
 for item in aux:
    dates.append(item)
 # print(dates)

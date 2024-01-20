@@ -15,9 +15,9 @@ class_list = ["weather","temperature","prob-precip","precipitation","humidity","
 units = [":00 ","","\u2103  防水率","% ","mm 湿度","% ","","m"]
 aux_dates = []
 
-def save_data(got_data,out_file,tag):
+def save_data(got_data,out_file):
    with open(out_file,'w',newline='',encoding='utf8') as fp:
-       fp.write(tag+"\n")
+       # fp.write(tag+"\n")
        add_data = csv.writer(fp,delimiter=',')
        for item in got_data:
            add_data.writerow(item)
@@ -51,7 +51,7 @@ def make_soup(tagID,f_out,tag):
            aux = auxStr.split(",")
        #print(len(aux))
        all_data.append(aux)
-   save_data(all_data,f_out,tagg)
+   save_data(all_data,f_out)
 
    return all_data
 
