@@ -6,12 +6,9 @@ set python_exe=D:\Python\Python-3.9.7\python.exe
 set home=C:\Users\yoursTruly\Documents\test\
 
 set pyCode=%home%get_tenki_1h.py
-
 set txtFile=%home%get_tenki_1h.txt
 
-
 %python_exe% %pyCode% > %txtFile%
-
 rem timeout /T 5
 
 for /F "tokens=1,2 delims==" %%i in (%txtFile%) do (
