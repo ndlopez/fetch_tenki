@@ -1,6 +1,6 @@
 # Weather applications
 
-Weather applications developed with various technologies and environments (GNU/Linux, MacOS and Windows). Uses APIs from different providers.
+Weather applications developed with various technologies and environments (GNU/Linux, MacOS and Windows). Scraps data from different providers.
 
 ## [CLI application](https://github.com/ndlopez/fetch_tenki/tree/main/get_tenki)
 
@@ -12,7 +12,7 @@ Display a notification every 30min.
 
 Works on GNOME 40+ versions
 
-![Screenshoot](tenki%40moji.physics/Screenshot.png)
+![Screenshoot](notification/tenki%40moji.physics/Screenshot.png)
 
 Should probably create a new branch for this repository
 
@@ -28,7 +28,9 @@ Display @the Notification Center and pop up every 30 minutes.
 
 Requires manual update, CJK chars are converted to Unicode.
 
-Branch created "notif"
+It takes a few seconds to load, cuz it has to download new data, process it and then convert it.
+
+![Screenshoot](notification/mac_os/getTenki_1534.png)
 
 ### xBar plugin
 
