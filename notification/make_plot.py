@@ -98,6 +98,9 @@ axes2 = plt.subplot(211,sharex=axes)
 axes2.plot(dates,thisData[2])
 axes2.tick_params('x', labelbottom=False)
 axes2.set_ylabel('rainProb[%]')
+# append second y axis
+axes21 = axes2.twinx()
+axes21.plot(dates,thisData[3],color='red')
 # sec_ax = axes2.secondary_xaxis('top',functions=(x_hours,x_hours))
 # sec_ax.set_xticks(dates,labels=xlbl)
 
