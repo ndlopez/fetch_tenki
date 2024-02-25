@@ -91,21 +91,36 @@ print(xlbl)
 # Not avail on py3.7 plt.subplots(layout='constrained')
 axes = plt.subplot(212)
 # axes.scatter(update_time,thisData[1],marker='^')
-axes.plot(dates,thisData[1])
-axes.set_ylabel('temp[C]')
+lms10 = axes.plot(dates,thisData[1],label="temp[$^\circ$C]")
+# axes.set_ylabel('temp[C]')
+axes11 = axes.twinx()
+lms11 = axes11.plot(dates,thisData[6],color='red',label="windy[m/s]")
+# axes11.set_ylabel('windy[m/s]')
+# axes.legend()
+# axes11.legend(loc=0)
+axes.grid()
+# append legend to the 1st plot
+lms = lms10 + lms11
+leggs = [l.get_label() for l in lms]
+axes.legend(lms,leggs,loc="lower right")
 # axes.set_xticks(update_time,labels=xlbl)
 axes2 = plt.subplot(211,sharex=axes)
-axes2.plot(dates,thisData[2])
-axes2.tick_params('x', labelbottom=False)
-axes2.set_ylabel('rainProb[%]')
-# append second y axis
+lms20 = axes2.plot(dates,thisData[2],label="rainProb[%]")
+# axes2.set_ylabel('rainProb[%]')
+# axes2.secondary_yaxis(1.2,functions=(x_hours))
 axes21 = axes2.twinx()
-axes21.plot(dates,thisData[3],color='red')
-# sec_ax = axes2.secondary_xaxis('top',functions=(x_hours,x_hours))
-# sec_ax.set_xticks(dates,labels=xlbl)
-
-#plt.xticks(rotation=45)
-plt.show()
+lms21= axes21.plot(dates,thisData[3],color='green',label="precip[mm]")
+# axes21.set_ylabel('precip[mm]')
+axes2.tick_params('x', labelbottom=False)
+# axes2.legend()
+# axes21.legend(loc=0)
+axes2.grid(axis='x')
+# append legend to the 1st plot
+lms = lms20 + lms21
+leggs = [l.get_label() for l in lms]
+axes2.legend(lms,leggs,loc="upper right")
+sec_ax = axes2.secondary_xaxis('top',functions=(x_hours,x_hours))
+sec_ax.set_xticks(dates,labels=xlbl)
 # plt.savefig(r"D:/data/get_tenki_today.png")
 
 """
