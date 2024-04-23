@@ -39,24 +39,58 @@ def x_date_hours(x):
    # (2024,01,20,03,0) -> 2024012003
    return 1000000*x.year + 10000*x.month + 10*x.day + x.hours
 
+def append_to_array(srcArr,newArr):
+   # run two loops and append elements of one
+   # to the other respectively
+   kdx=0
+   for atem in srcArr:
+      idx = 0
+      for jdx in range(kdx,len(newArr)):
+         for elm in newArr[jdx]:
+               if idx <= len(newArr[jdx]):
+                  atem.append(elm)
+               idx += 1
+         if idx == len(newArr[jdx]):
+               break
+      kdx += 1
+   return srcArr
+
 thisData = read_data(Path.home().joinpath("Downloads","get_tenki_today.csv"))
 print(thisData)
 thatData = read_data(Path.home().joinpath("Downloads","get_tenki_tomorrow.csv"))
+thusData = read_data(r"D:/dlopez/data/get_tenki_dayaftertomorrow.csv")
+
 """run in parallel two loops to append 
  contents of one to the other respectively"""
 kdx =0
 for atem in thisData:
    idx = 0
    for jdx in range(kdx,len(thatData)):
-       for elm in thatData[jdx]:
-           if idx <= len(thatData[jdx]):
+         for elm in thatData[jdx]:
+            if idx <= len(thatData[jdx]):
                atem.append(elm)
-           idx+=1
-       if idx == len(thatData[jdx]):
-           break
+            idx+=1
+         if idx == len(thatData[jdx]):
+            break
+   kdx +=1
+
+# adding dayAfterTomorrow forecast
+kdx=0
+for atem in thisData:
+   idx = 0
+   for jdx in range(kdx,len(thusData)):
+      for elm in thusData[jdx]:
+         if idx <= len(thusData[jdx]):
+               atem.append(elm)
+         idx+=1
+      if idx == len(thusData[jdx]):
+         break
    kdx +=1
 
 # print(thisData)
+# auxArr = append_to_array(thisData,thatData)
+# updArr = append_to_array(auxArr,thusData)
+
 update_time = []
 for heure in range(1,len(thisData[0])+1):
    update_time.append(heure)
@@ -64,9 +98,14 @@ for heure in range(1,len(thisData[0])+1):
 # create two arrays with datetimes
 heute = datetime.now()
 zoey = datetime(heute.year,heute.month,heute.day)
-dates = [zoey + timedelta(hours=k) for k in range(24)]
-aux = [zoey + timedelta(1,hours=k) for k in range(24)]
+dates = [zoey + timedelta(hours=k) for k in range(1,25)]
+aux = [zoey + timedelta(1,hours=k) for k in range(1,25)]
+amy = [zoey + timedelta(2,hours=k) for k in range(1,25)]
+
+# print(amy)
 for item in aux:
+   dates.append(item)
+for item in amy:
    dates.append(item)
 # print(dates)
 # print(len(update_time),len(thisData[0]))
@@ -76,13 +115,16 @@ for item in aux:
 
 xlbl = []
 # convert cjk chars to unicode
+# \u263d crescent Moon
 for x in thisData[0]:
    if x == "晴れ":
-       xlbl.append(u"\u2600")
+      xlbl.append(u"\u2600")
    elif x == "曇り":
-       xlbl.append(u"\u2601")
+      xlbl.append(u"\u2601")
+   elif "雪" in x:
+      xlbl.append(u"\u2744")
    else:
-       xlbl.append(u"\u2614")
+      xlbl.append(u"\u2614")
 # aux = [u"\u2600" if x == "晴れ" else u"\u2601" for x in thisData[0]]
 print(xlbl)
 #\u2614 umbrella \u263c sun
