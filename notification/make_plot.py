@@ -58,7 +58,7 @@ def append_to_array(srcArr,newArr):
 thisData = read_data(Path.home().joinpath("Downloads","get_tenki_today.csv"))
 print(thisData)
 thatData = read_data(Path.home().joinpath("Downloads","get_tenki_tomorrow.csv"))
-thusData = read_data(r"D:/dlopez/data/get_tenki_dayaftertomorrow.csv")
+thusData = read_data(Path.home().joinpath("Downloads","get_tenki_dayaftertomorrow.csv"))
 
 """run in parallel two loops to append 
  contents of one to the other respectively"""

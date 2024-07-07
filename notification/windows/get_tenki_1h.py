@@ -92,13 +92,13 @@ if __name__ == "__main__":
         # update every 3hours [[],[],...]
         print("data being updated...")
         got_that = make_soup("forecast-point-1h-today",outFile[0],now)
-        got_zoey = make_soup("forecast-point-1h-tomorrow",outFile[1],tomorrow)
+        got_avy = make_soup("forecast-point-1h-tomorrow",outFile[1],tomorrow)
         got_zoey = make_soup("forecast-point-1h-dayaftertomorrow",outFile[2])
     else:
         # read from csv file
         print("data from file")
         got_that = read_data(outFile[0])
-        got_zoey = read_data(outFile[1])
+        got_avy = read_data(outFile[1])
         got_zoey = read_data(outFile[2])
     
     # print(got_this) # [[weather],[tem],...]
@@ -120,4 +120,4 @@ if __name__ == "__main__":
     get_info(int(currHour[:2]) + aux + 0,got_that)
     # tomorrow
     print(f"next2= {tomorrow.strftime('%m月%d日')} {str(int(currHour[:2]))}{units[0]}",end="")
-    get_info(int(currHour[:2]),got_zoey)
+    get_info(int(currHour[:2]),got_avy)
